@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=3 uid="uid://dt1f0pt61rwgs"]
+
+[ext_resource type="SpriteFrames" uid="uid://dvm2c2dceyk1b" path="res://assets/sprites/spriteframes/playerBaseSpriteframes.tres" id="1_5sjbw"]
+[ext_resource type="Script" path="res://scripts/player/PlayerManager.gd" id="1_x08n2"]
+[ext_resource type="Script" path="res://scripts/animationSystem/AnimationController.gd" id="2_ypxw5"]
+[ext_resource type="Script" path="res://scripts/movementSystem/MovementControls.gd" id="3_n8exw"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/IdleState.gd" id="4_h6tu5"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/WalkState.gd" id="5_brqt7"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/RunState.gd" id="6_ymirf"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/HurtState.gd" id="7_ahpep"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/DeathState.gd" id="8_4045u"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/MeleeState.gd" id="9_rs58a"]
+[ext_resource type="Script" path="res://scripts/movementSystem/states/RangeState.gd" id="10_skru8"]
+[ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="12_575i4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wm680"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dymv"]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movementControls", "animator", "healthComponent")]
+position = Vector2(165, 81)
+script = ExtResource("1_x08n2")
+movementControls = NodePath("MovementControls")
+animator = NodePath("PlayerAnimator")
+healthComponent = NodePath("HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_wm680")
+
+[node name="PlayerAnimator" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("1_5sjbw")
+animation = &"range 3"
+script = ExtResource("2_ypxw5")
+
+[node name="MovementControls" type="Node2D" parent="." node_paths=PackedStringArray("startingState", "nodesToFlip", "idleState", "walkState", "runState", "hurtState", "deathState", "meleeState", "rangeState")]
+script = ExtResource("3_n8exw")
+startingState = NodePath("IdleState")
+nodesToFlip = [NodePath("../PlayerAnimator")]
+idleState = NodePath("IdleState")
+walkState = NodePath("WalkState")
+runState = NodePath("RunState")
+hurtState = NodePath("HurtState")
+deathState = NodePath("DeathState")
+meleeState = NodePath("MeleeState")
+rangeState = NodePath("RangeState")
+
+[node name="IdleState" type="Node2D" parent="MovementControls"]
+script = ExtResource("4_h6tu5")
+animName = "idle"
+
+[node name="WalkState" type="Node2D" parent="MovementControls"]
+script = ExtResource("5_brqt7")
+movementSpeed = 100
+animName = "walk"
+
+[node name="RunState" type="Node2D" parent="MovementControls"]
+script = ExtResource("6_ymirf")
+movementSpeed = 200
+animName = "run"
+
+[node name="HurtState" type="Node2D" parent="MovementControls"]
+script = ExtResource("7_ahpep")
+
+[node name="DeathState" type="Node2D" parent="MovementControls"]
+script = ExtResource("8_4045u")
+
+[node name="MeleeState" type="Node2D" parent="MovementControls" node_paths=PackedStringArray("comboTimer", "cooldownTimer")]
+script = ExtResource("9_rs58a")
+comboTimer = NodePath("ComboTimer")
+cooldownTimer = NodePath("CooldownTimer")
+comboAnims = Array[String](["melee 1", "melee 2"])
+
+[node name="ComboTimer" type="Timer" parent="MovementControls/MeleeState"]
+one_shot = true
+
+[node name="CooldownTimer" type="Timer" parent="MovementControls/MeleeState"]
+one_shot = true
+
+[node name="RangeState" type="Node2D" parent="MovementControls" node_paths=PackedStringArray("comboTimer", "cooldownTimer")]
+script = ExtResource("10_skru8")
+comboTimer = NodePath("ComboTimer")
+cooldownTimer = NodePath("CooldownTimer")
+comboAnims = Array[String](["range 1", "range 2", "range 3"])
+
+[node name="ComboTimer" type="Timer" parent="MovementControls/RangeState"]
+one_shot = true
+
+[node name="CooldownTimer" type="Timer" parent="MovementControls/RangeState"]
+one_shot = true
+
+[node name="HealthComponent" type="Area2D" parent="."]
+script = ExtResource("12_575i4")
+health = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthComponent"]
+shape = SubResource("CapsuleShape2D_7dymv")
