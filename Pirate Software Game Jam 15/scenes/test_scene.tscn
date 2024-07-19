@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2elrwhggwxo3"]
+
+[ext_resource type="PackedScene" uid="uid://dt1f0pt61rwgs" path="res://prefabs/player/player.tscn" id="1_gpauc"]
+[ext_resource type="PackedScene" uid="uid://cc3svuulyo5l7" path="res://prefabs/enemies/orb_sweeper_enemy.tscn" id="2_0vba7"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_gpauc")]
+
+[node name="OrbSweeperEnemy" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_0vba7")]
+player = NodePath("../Player")

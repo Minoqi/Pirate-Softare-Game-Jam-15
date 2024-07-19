@@ -12,4 +12,5 @@ func end_state() -> void:
 
 func animation_finished() -> void:
 	if stateMachine.currentState == self:
-		stateMachine.change_state(stateMachine.idleState)
+		queue_free()
+		#stateMachine.change_state(stateMachine.idleState)

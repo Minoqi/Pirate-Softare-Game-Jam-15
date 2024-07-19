@@ -57,4 +57,5 @@ func check_for_input() -> void:
 	if Input.is_action_just_pressed("melee attack") and stateMachine.meleeMode:
 		stateMachine.change_state(stateMachine.meleeState)
 	elif Input.is_action_just_pressed("range attack") and !stateMachine.meleeMode:
+		stateMachine.rangeState.attackTargetPos = get_global_mouse_position()
 		stateMachine.change_state(stateMachine.rangeState)

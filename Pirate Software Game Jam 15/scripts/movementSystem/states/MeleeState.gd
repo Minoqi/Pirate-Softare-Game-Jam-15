@@ -28,7 +28,7 @@ func exit_state() -> void:
 
 func _play_attack_animation() -> void:
 	## Check if cooldowning after combo
-	if !cooldownTimer.is_stopped():
+	if !cooldownTimer.is_stopped() and currentCombo == 0:
 		stateMachine.change_state(stateMachine.idleState)
 	
 	call_animation.emit(comboAnims[currentCombo])

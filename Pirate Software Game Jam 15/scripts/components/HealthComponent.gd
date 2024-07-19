@@ -16,7 +16,8 @@ func _ready():
 
 
 func _took_damage(_attack : Area2D) -> void:
-	health -= 1
+	health -= _attack.get_owner().damage
+	_attack.queue_free()
 	
 	if health <= 0:
 		died.emit()

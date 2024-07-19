@@ -10,12 +10,10 @@ func _ready():
 func enter_state() -> void:
 	set_process(true)
 	call_animation.emit(animName)
-	print("ENTER IDLE STATE: ", animName)
 
 
 func exit_state() -> void:
 	set_process(false)
-	print("EXIT IDLE STATE")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,4 +27,5 @@ func check_for_input() -> void:
 	elif Input.is_action_just_pressed("melee attack") and stateMachine.meleeMode:
 		stateMachine.change_state(stateMachine.meleeState)
 	elif Input.is_action_just_pressed("range attack") and !stateMachine.meleeMode:
+		stateMachine.rangeState.attackTargetPos = get_global_mouse_position()
 		stateMachine.change_state(stateMachine.rangeState)

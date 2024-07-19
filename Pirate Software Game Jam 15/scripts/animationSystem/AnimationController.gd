@@ -1,4 +1,4 @@
-extends AnimatedSprite2D
+extends AnimationPlayer
 class_name AnimationSystem
 
 
@@ -17,5 +17,5 @@ func play_animation(_animName : String) -> void:
 	play(_animName)
 
 
-func _animation_finished() -> void:
+func _animation_finished(_animName : String) -> void:
 	animation_done.emit()

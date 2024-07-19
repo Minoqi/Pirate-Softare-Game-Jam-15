@@ -7,8 +7,12 @@ class_name RangeState
 @export var cooldownTimer : Timer
 @export var cooldownDuration : float = .25
 @export var comboAnims : Array[String]
+@export var bulletPrefab : PackedScene
+@export var bulletSpawnPos : Marker2D
+@export var damage : int = 1
 
 var currentCombo : int = 0
+var attackTargetPos : Vector2 = Vector2.ZERO
 
 
 func _ready():
@@ -28,7 +32,7 @@ func exit_state() -> void:
 
 func _play_attack_animation() -> void:
 	## Check if cooldowning after combo
-	if !cooldownTimer.is_stopped():
+	if !cooldownTimer.is_stopped() and currentCombo == 0:
 		stateMachine.change_state(stateMachine.idleState)
 	
 	call_animation.emit(comboAnims[currentCombo])
@@ -52,3 +56,10 @@ func animation_finished() -> void:
 
 func changed_attack_modes() -> void:
 	stateMachine.change_state(stateMachine.idleState)
+
+
+func _spawn_attack() -> void:
+	var newBullet : MovingRangeAttack = bulletPrefab.instantiate()
+	add_child(newBullet)
+	newBullet.global_position = bulletSpawnPos.global_position
+	newBullet.initialize_attack(damage, attackTargetPos, true)
