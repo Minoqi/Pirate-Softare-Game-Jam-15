@@ -400,6 +400,9 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="Animation" id="Animation_ve11j"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_gi40m"]
 length = 0.466667
 tracks/0/type = "value"
@@ -598,9 +601,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_ve11j"]
-length = 0.001
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sxddu"]
 _data = {
 "RESET": SubResource("Animation_ve11j"),
@@ -627,10 +627,9 @@ healthComponent = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(38, 0)
 sprite_frames = SubResource("SpriteFrames_hklp2")
-animation = &"range attack"
-frame = 6
+animation = &"death"
+offset = Vector2(41.2, -16.8)
 
 [node name="AnimationSystem" type="AnimationPlayer" parent="AnimatedSprite2D"]
 libraries = {
@@ -639,7 +638,9 @@ libraries = {
 script = ExtResource("7_wunsf")
 
 [node name="MeleeHitbox" type="Area2D" parent="AnimatedSprite2D"]
-position = Vector2(-25, 5)
+position = Vector2(15.2, -10.4)
+collision_layer = 0
+collision_mask = 0
 
 [node name="MeleeHitboxShape" type="CollisionShape2D" parent="AnimatedSprite2D/MeleeHitbox"]
 position = Vector2(34, -3)
@@ -649,7 +650,7 @@ disabled = true
 [node name="EnemyControls" type="Node2D" parent="." node_paths=PackedStringArray("startingState", "nodesToFlip", "idleState", "moveState", "hurtState", "deathState", "attackState")]
 script = ExtResource("9_c0ep5")
 startingState = NodePath("IdleEnemyState")
-nodesToFlip = [NodePath("../AnimatedSprite2D")]
+nodesToFlip = [NodePath("../AnimatedSprite2D"), NodePath("../HealthComponent")]
 idleState = NodePath("IdleEnemyState")
 moveState = NodePath("MoveEnemyState")
 hurtState = NodePath("HurtEnemyState")
@@ -666,6 +667,8 @@ one_shot = true
 
 [node name="MoveEnemyState" type="Node2D" parent="EnemyControls"]
 script = ExtResource("11_ynmev")
+distanceToAttackMelee = 40.0
+distanceToAttackRange = 100.0
 animName = "move"
 
 [node name="HurtEnemyState" type="Node2D" parent="EnemyControls"]
@@ -684,6 +687,7 @@ rangeAttackPrefab = ExtResource("15_8p4e3")
 rangeAttackAnim = "orb sweeper"
 
 [node name="HealthComponent" type="Area2D" parent="."]
+position = Vector2(1.6, -13.6)
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("15_6hwf5")

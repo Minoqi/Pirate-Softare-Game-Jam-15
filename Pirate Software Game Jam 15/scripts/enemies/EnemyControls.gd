@@ -80,4 +80,7 @@ func _took_damage() -> void:
 
 
 func _died() -> void:
+	if currentState == deathState:
+		return
+	
 	change_state(deathState)

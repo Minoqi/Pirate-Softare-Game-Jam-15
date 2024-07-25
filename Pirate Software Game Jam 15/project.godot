@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Pirate Software Game Jam 15"
+config/tags=PackedStringArray("games")
+run/main_scene="res://scenes/test_scene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SoundManager="*res://addons/sound_manager/sound_manager.gd"
 
 [display]
 
@@ -80,5 +86,7 @@ dash={
 
 [layer_names]
 
+2d_physics/layer_1="default"
 2d_physics/layer_2="damage players"
 2d_physics/layer_3="damage enemies"
+2d_physics/layer_4="drop"

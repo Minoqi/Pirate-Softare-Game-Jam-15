@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dt1f0pt61rwgs"]
+[gd_scene load_steps=33 format=3 uid="uid://dt1f0pt61rwgs"]
 
 [ext_resource type="SpriteFrames" uid="uid://dvm2c2dceyk1b" path="res://assets/sprites/spriteframes/playerBaseSpriteframes.tres" id="1_5sjbw"]
 [ext_resource type="Script" path="res://scripts/player/PlayerManager.gd" id="1_x08n2"]
@@ -13,8 +13,12 @@
 [ext_resource type="Script" path="res://scripts/movementSystem/states/RangeState.gd" id="10_skru8"]
 [ext_resource type="PackedScene" uid="uid://duj3ky3ewyp5g" path="res://prefabs/attacks/moving_range_attack.tscn" id="12_6qogr"]
 [ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="12_575i4"]
+[ext_resource type="Script" path="res://scripts/drops/CollectDrops.gd" id="14_buevc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wm680"]
+
+[sub_resource type="Animation" id="Animation_fkuu0"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_v1kwb"]
 length = 0.666667
@@ -151,6 +155,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["melee 1"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../MovementControls/MeleeState/MeleeHitbox1/MeleeHitboxShape1:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
 [sub_resource type="Animation" id="Animation_y0ftw"]
 length = 0.4
@@ -177,6 +193,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["melee 2"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../MovementControls/MeleeState/MeleeHitbox2/MeleeHitboxShape2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_j1ddr"]
@@ -360,6 +388,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hqexs"]
 _data = {
+"RESET": SubResource("Animation_fkuu0"),
 "dash": SubResource("Animation_v1kwb"),
 "death": SubResource("Animation_7gs3i"),
 "hurt": SubResource("Animation_v2jda"),
@@ -373,23 +402,34 @@ _data = {
 "walk": SubResource("Animation_e4b5y")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6pba"]
+size = Vector2(31.5, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3m6e1"]
+size = Vector2(22, 40.5)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dymv"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movementControls", "animator", "healthComponent")]
-position = Vector2(165, 81)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ejofh"]
+radius = 36.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movementControls", "animator", "healthComponent", "collectDropsComponent")]
 script = ExtResource("1_x08n2")
 movementControls = NodePath("MovementControls")
 animator = NodePath("PlayerAnimator/DetailedAnimator")
 healthComponent = NodePath("HealthComponent")
+collectDropsComponent = NodePath("CollectDropComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
 shape = SubResource("CapsuleShape2D_wm680")
 
 [node name="PlayerAnimator" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(0, -17)
 sprite_frames = ExtResource("1_5sjbw")
-animation = &"range 3"
-frame = 1
+animation = &"melee 2"
+frame = 5
 
 [node name="DetailedAnimator" type="AnimationPlayer" parent="PlayerAnimator"]
 libraries = {
@@ -400,7 +440,7 @@ script = ExtResource("2_ypxw5")
 [node name="MovementControls" type="Node2D" parent="." node_paths=PackedStringArray("startingState", "nodesToFlip", "idleState", "walkState", "runState", "hurtState", "deathState", "meleeState", "rangeState")]
 script = ExtResource("3_n8exw")
 startingState = NodePath("IdleState")
-nodesToFlip = [NodePath("../PlayerAnimator")]
+nodesToFlip = [NodePath("../PlayerAnimator"), NodePath(".")]
 idleState = NodePath("IdleState")
 walkState = NodePath("WalkState")
 runState = NodePath("RunState")
@@ -441,6 +481,24 @@ one_shot = true
 [node name="CooldownTimer" type="Timer" parent="MovementControls/MeleeState"]
 one_shot = true
 
+[node name="MeleeHitbox1" type="Area2D" parent="MovementControls/MeleeState"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeleeHitboxShape1" type="CollisionShape2D" parent="MovementControls/MeleeState/MeleeHitbox1"]
+position = Vector2(25.25, -9)
+shape = SubResource("RectangleShape2D_j6pba")
+disabled = true
+
+[node name="MeleeHitbox2" type="Area2D" parent="MovementControls/MeleeState"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeleeHitboxShape2" type="CollisionShape2D" parent="MovementControls/MeleeState/MeleeHitbox2"]
+position = Vector2(20, -20.75)
+shape = SubResource("RectangleShape2D_3m6e1")
+disabled = true
+
 [node name="RangeState" type="Node2D" parent="MovementControls" node_paths=PackedStringArray("comboTimer", "cooldownTimer", "bulletSpawnPos")]
 script = ExtResource("10_skru8")
 comboTimer = NodePath("ComboTimer")
@@ -459,6 +517,7 @@ one_shot = true
 position = Vector2(19, 0)
 
 [node name="HealthComponent" type="Area2D" parent="."]
+position = Vector2(0, -15)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("12_575i4")
@@ -466,3 +525,12 @@ health = 3
 
 [node name="HealthHitbox" type="CollisionShape2D" parent="HealthComponent"]
 shape = SubResource("CapsuleShape2D_7dymv")
+
+[node name="CollectDropComponent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("14_buevc")
+
+[node name="CollectDropShape" type="CollisionShape2D" parent="CollectDropComponent"]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_ejofh")

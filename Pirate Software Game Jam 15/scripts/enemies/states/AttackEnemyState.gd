@@ -28,6 +28,7 @@ func animation_finished() -> void:
 func _spawn_range_attack() -> void:
 	var newAttack : StillRangeAttack = rangeAttackPrefab.instantiate()
 	add_child(newAttack)
+	newAttack.global_position = stateMachine.actor.player.global_position
 	newAttack.initialize_attack(damage, false, rangeAttackAnim)
 
 

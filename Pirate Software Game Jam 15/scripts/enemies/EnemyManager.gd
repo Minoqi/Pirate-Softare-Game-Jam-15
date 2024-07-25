@@ -6,6 +6,9 @@ class_name EnemyManager
 @export var stateMachine : EnemyControls
 @export var healthComponent : HealthComponent
 @export var player : PlayerManager
+@export var demonSoulPrefab : PackedScene
+
+@export var room : Node2D
 
 
 # Called when the node enters the scene tree for the first time.
