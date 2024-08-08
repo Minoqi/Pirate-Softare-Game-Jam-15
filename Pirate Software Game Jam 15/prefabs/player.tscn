@@ -1,0 +1,141 @@
+[gd_scene load_steps=14 format=3 uid="uid://nej55a1eboll"]
+
+[ext_resource type="Script" path="res://scripts/player/Player.gd" id="1_r5a7s"]
+[ext_resource type="Script" path="res://scripts/controls/PlayerControls.gd" id="2_6ejk5"]
+[ext_resource type="PackedScene" uid="uid://cua4rib8kgau3" path="res://prefabs/bullet.tscn" id="3_s8ytd"]
+[ext_resource type="Texture2D" uid="uid://bjtrljwgfvqts" path="res://assets/sprites/UI/Buttons/Mini_Arrows1.png" id="4_gfqjc"]
+[ext_resource type="SpriteFrames" uid="uid://csfnulikb84x6" path="res://assets/animations/PlayerSpriteframes.tres" id="5_noyun"]
+[ext_resource type="Texture2D" uid="uid://ycqxcmesch2x" path="res://assets/sprites/vfx/CircleLight.png" id="7_lebeg"]
+[ext_resource type="Script" path="res://scripts/components/AnimationController.gd" id="7_ts557"]
+[ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="8_njja0"]
+[ext_resource type="PackedScene" uid="uid://ken7eomtrlda" path="res://prefabs/ui/hud.tscn" id="9_y1nak"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wrw1b"]
+radius = 7.0
+height = 14.0
+
+[sub_resource type="Animation" id="Animation_j2mss"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_iamns"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["walk"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nov4w"]
+_data = {
+"idle": SubResource("Animation_j2mss"),
+"walk": SubResource("Animation_iamns")
+}
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("controls", "animator", "healthComponent", "hud")]
+script = ExtResource("1_r5a7s")
+controls = NodePath("PlayerControls")
+animator = NodePath("Animations/AnimationSystem")
+healthComponent = NodePath("HealthComponent")
+hud = NodePath("HUD")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -7)
+shape = SubResource("CapsuleShape2D_wrw1b")
+
+[node name="PlayerControls" type="Node2D" parent="." node_paths=PackedStringArray("attackTimer", "bulletSpawnPoint", "directionIcon")]
+position = Vector2(2, -6)
+script = ExtResource("2_6ejk5")
+speed = 100
+attackTimer = NodePath("AttackTimer")
+bulletPrefab = ExtResource("3_s8ytd")
+bulletSpawnPoint = NodePath("BulletSpawnPoint")
+directionIcon = NodePath("BulletSpawnPoint/DirectionIcon")
+idleAnim = "idle"
+runAnim = "walk"
+
+[node name="BulletSpawnPoint" type="Marker2D" parent="PlayerControls"]
+
+[node name="DirectionIcon" type="Sprite2D" parent="PlayerControls/BulletSpawnPoint"]
+texture = ExtResource("4_gfqjc")
+
+[node name="AttackTimer" type="Timer" parent="PlayerControls"]
+one_shot = true
+
+[node name="Animations" type="Node2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Animations"]
+light_mask = 2
+sprite_frames = ExtResource("5_noyun")
+animation = &"idle"
+
+[node name="AnimationSystem" type="AnimationPlayer" parent="Animations" node_paths=PackedStringArray("flipSprites")]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_nov4w")
+}
+script = ExtResource("7_ts557")
+flipSprites = [NodePath("../AnimatedSprite2D")]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(2, -6)
+color = Color(0.980392, 0.921569, 0.509804, 1)
+texture = ExtResource("7_lebeg")
+texture_scale = 3.0
+
+[node name="HealthComponent" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("8_njja0")
+health = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthComponent"]
+position = Vector2(1, -7)
+shape = SubResource("CapsuleShape2D_wrw1b")
+
+[node name="HUD" parent="." instance=ExtResource("9_y1nak")]

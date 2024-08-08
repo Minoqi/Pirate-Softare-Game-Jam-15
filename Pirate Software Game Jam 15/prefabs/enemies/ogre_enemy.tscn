@@ -1,0 +1,323 @@
+[gd_scene load_steps=32 format=3 uid="uid://dh05h6lntyoxd"]
+
+[ext_resource type="Texture2D" uid="uid://ujm8dvaqb202" path="res://assets/sprites/enemies/ogre/idle/ogre_idle_anim_f0.png" id="1_68l8o"]
+[ext_resource type="Script" path="res://scripts/enemies/Enemy.gd" id="1_pirci"]
+[ext_resource type="Texture2D" uid="uid://pqrg5i7ajrft" path="res://assets/sprites/enemies/ogre/idle/ogre_idle_anim_f1.png" id="2_0boyb"]
+[ext_resource type="Shader" uid="uid://2p6e0vxcwp4u" path="res://scripts/shaders/HitFlashVisualShader.tres" id="2_nnyd2"]
+[ext_resource type="Texture2D" uid="uid://dtyqj3vioe8se" path="res://assets/sprites/enemies/ogre/idle/ogre_idle_anim_f2.png" id="3_u6kjs"]
+[ext_resource type="Texture2D" uid="uid://dkh3gtos3dhqi" path="res://assets/sprites/enemies/ogre/idle/ogre_idle_anim_f3.png" id="4_ow23f"]
+[ext_resource type="Texture2D" uid="uid://do74v2ehu2wxe" path="res://assets/sprites/enemies/ogre/run/ogre_run_anim_f0.png" id="5_q0bd0"]
+[ext_resource type="Texture2D" uid="uid://cp4l0kdf4g4mr" path="res://assets/sprites/enemies/ogre/run/ogre_run_anim_f1.png" id="6_ub3y5"]
+[ext_resource type="Texture2D" uid="uid://c38g2pl3dep6j" path="res://assets/sprites/enemies/ogre/run/ogre_run_anim_f2.png" id="7_68da3"]
+[ext_resource type="Texture2D" uid="uid://2nlpx2g30wdc" path="res://assets/sprites/enemies/ogre/run/ogre_run_anim_f3.png" id="8_18083"]
+[ext_resource type="Script" path="res://scripts/components/AnimationController.gd" id="9_kfm7p"]
+[ext_resource type="Script" path="res://scripts/enemies/EnemyStateMachine.gd" id="10_o0qbq"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyIdleState.gd" id="11_wxkll"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyWanderState.gd" id="12_dsef0"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyChaseState.gd" id="13_31riq"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyMeleeAttackState.gd" id="14_oxjt3"]
+[ext_resource type="Texture2D" uid="uid://r7i1rtn2j1wx" path="res://assets/sprites/weapons/weapon_double_axe.png" id="15_5d1qj"]
+[ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="18_em5bi"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pvipa"]
+radius = 9.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e47h8"]
+shader = ExtResource("2_nnyd2")
+shader_parameter/enabeld = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gqwvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_68l8o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0boyb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_u6kjs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ow23f")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_q0bd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ub3y5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_68da3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_18083")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_0q5x1"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_7uafi"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_silka"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["run"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pfjy8"]
+_data = {
+"RESET": SubResource("Animation_0q5x1"),
+"idle": SubResource("Animation_7uafi"),
+"run": SubResource("Animation_silka")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xjop5"]
+
+[sub_resource type="Animation" id="Animation_nqffn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/Weapon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.200713]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/Weapon/WeaponHitbox/WeaponShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_86ul8"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_8thue"]
+resource_name = "swing"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/Weapon:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, -2, 1),
+"update": 0,
+"values": [0.200713, 1.16937, 0.200713]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/Weapon/WeaponHitbox/WeaponShape:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end_attack"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nn4mn"]
+_data = {
+"RESET": SubResource("Animation_nqffn"),
+"idle": SubResource("Animation_86ul8"),
+"swing": SubResource("Animation_8thue")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_16r1y"]
+radius = 9.0
+height = 20.0
+
+[node name="OgreEnemy" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine", "animator", "healthComponent")]
+script = ExtResource("1_pirci")
+stateMachine = NodePath("EnemyStateMachine")
+animator = NodePath("Animations/AnimationSystem")
+healthComponent = NodePath("HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
+shape = SubResource("CapsuleShape2D_pvipa")
+
+[node name="Animations" type="Node2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Animations"]
+material = SubResource("ShaderMaterial_e47h8")
+sprite_frames = SubResource("SpriteFrames_gqwvj")
+animation = &"idle"
+frame = 3
+
+[node name="AnimationSystem" type="AnimationPlayer" parent="Animations" node_paths=PackedStringArray("flipSprites")]
+libraries = {
+"": SubResource("AnimationLibrary_pfjy8")
+}
+script = ExtResource("9_kfm7p")
+flipSprites = [NodePath("../AnimatedSprite2D"), NodePath("../../EnemyStateMachine/EnemyMeleeAttackState")]
+
+[node name="EnemyStateMachine" type="Node2D" parent="." node_paths=PackedStringArray("agent", "startingState", "idleState", "wanderState", "chaseState", "attackState")]
+script = ExtResource("10_o0qbq")
+agent = NodePath("../NavigationAgent2D")
+startingState = NodePath("EnemyIdleState")
+idleState = NodePath("EnemyIdleState")
+wanderState = NodePath("EnemyWanderState")
+chaseState = NodePath("EnemyChaseState")
+attackState = NodePath("EnemyMeleeAttackState")
+
+[node name="EnemyIdleState" type="Node2D" parent="EnemyStateMachine" node_paths=PackedStringArray("idleTimer")]
+script = ExtResource("11_wxkll")
+idleTimer = NodePath("IdleTimer")
+idleDuration = Vector2(3, 6)
+animName = "idle"
+
+[node name="IdleTimer" type="Timer" parent="EnemyStateMachine/EnemyIdleState"]
+one_shot = true
+
+[node name="EnemyWanderState" type="Node2D" parent="EnemyStateMachine"]
+script = ExtResource("12_dsef0")
+wanderSpeed = 50
+animName = "run"
+
+[node name="EnemyChaseState" type="Node2D" parent="EnemyStateMachine"]
+script = ExtResource("13_31riq")
+chaseDistance = 65.0
+chaseSpeed = 60.0
+animName = "run"
+
+[node name="EnemyMeleeAttackState" type="Node2D" parent="EnemyStateMachine" node_paths=PackedStringArray("attackTimer", "weapon", "weaponHolder", "weaponAnimator")]
+script = ExtResource("14_oxjt3")
+attackTimer = NodePath("AttackTimer")
+attackCooldown = 3.0
+attackDistance = 30.0
+weapon = NodePath("WeaponHolder/Weapon")
+weaponHolder = NodePath("WeaponHolder")
+weaponAnimator = NodePath("MleeAnimator")
+
+[node name="WeaponHolder" type="Marker2D" parent="EnemyStateMachine/EnemyMeleeAttackState"]
+position = Vector2(16, -15)
+
+[node name="Weapon" type="Sprite2D" parent="EnemyStateMachine/EnemyMeleeAttackState/WeaponHolder"]
+position = Vector2(-0.942012, 0.25122)
+rotation = 0.200713
+texture = ExtResource("15_5d1qj")
+offset = Vector2(-0.323192, -6.31353)
+
+[node name="WeaponHitbox" type="Area2D" parent="EnemyStateMachine/EnemyMeleeAttackState/WeaponHolder/Weapon"]
+position = Vector2(-0.323191, -6.31353)
+
+[node name="WeaponShape" type="CollisionShape2D" parent="EnemyStateMachine/EnemyMeleeAttackState/WeaponHolder/Weapon/WeaponHitbox"]
+position = Vector2(-0.216283, -6.07892)
+shape = SubResource("CircleShape2D_xjop5")
+
+[node name="MleeAnimator" type="AnimationPlayer" parent="EnemyStateMachine/EnemyMeleeAttackState"]
+libraries = {
+"": SubResource("AnimationLibrary_nn4mn")
+}
+
+[node name="AttackTimer" type="Timer" parent="EnemyStateMachine/EnemyMeleeAttackState"]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="HealthComponent" type="Area2D" parent="." node_paths=PackedStringArray("hitFlashShader", "hitFlashTimer")]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("18_em5bi")
+health = 5
+hitFlashShader = NodePath("../Animations/AnimatedSprite2D")
+hitFlashTimer = NodePath("HitFlashTimer")
+
+[node name="HealthHitbox" type="CollisionShape2D" parent="HealthComponent"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_16r1y")
+
+[node name="HitFlashTimer" type="Timer" parent="HealthComponent"]
+one_shot = true

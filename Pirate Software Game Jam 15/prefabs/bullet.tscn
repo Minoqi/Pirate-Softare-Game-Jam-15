@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://cua4rib8kgau3"]
+
+[ext_resource type="Texture2D" uid="uid://bgw3omvnm7h7a" path="res://assets/sprites/vfx/LightBall.png" id="1_x1heq"]
+[ext_resource type="Script" path="res://scripts/bullet/Bullet.gd" id="2_j77yb"]
+[ext_resource type="Texture2D" uid="uid://ycqxcmesch2x" path="res://assets/sprites/vfx/CircleLight.png" id="3_qyysn"]
+[ext_resource type="Texture2D" uid="uid://b3rb381mv44g" path="res://assets/sprites/vfx/ShadowBall.png" id="3_y8l5f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ilaki"]
+radius = 5.09902
+
+[node name="Bullet" type="Sprite2D" node_paths=PackedStringArray("light", "hitbox")]
+texture = ExtResource("1_x1heq")
+script = ExtResource("2_j77yb")
+light = NodePath("PointLight2D")
+hitbox = NodePath("Hitbox")
+lightSprite = ExtResource("1_x1heq")
+lightLightColor = Color(0.980392, 0.921569, 0.509804, 1)
+shadowSprite = ExtResource("3_y8l5f")
+shadowLightColor = Color(0.494118, 0.282353, 0.823529, 1)
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_ilaki")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.980392, 0.921569, 0.509804, 1)
+texture = ExtResource("3_qyysn")

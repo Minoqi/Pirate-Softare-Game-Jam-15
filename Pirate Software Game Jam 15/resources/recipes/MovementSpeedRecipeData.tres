@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=2 format=3 uid="uid://b7j8tyhpqadul"]
+
+[ext_resource type="Script" path="res://scripts/upgrades/RecipeData.gd" id="1_3rir7"]
+
+[resource]
+script = ExtResource("1_3rir7")
+recipeName = ""
+recipeDescription = ""
+recipeIcon = ""
+recipeRequirements = Array[Resource("res://scripts/upgrades/ItemData.gd")]([])

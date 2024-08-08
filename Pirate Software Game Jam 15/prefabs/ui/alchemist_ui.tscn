@@ -1,0 +1,307 @@
+[gd_scene load_steps=18 format=3 uid="uid://dfnrker1uqxuu"]
+
+[ext_resource type="Texture2D" uid="uid://jwwgm0fap7b8" path="res://assets/sprites/UI/Book/Book.png" id="1_0msvw"]
+[ext_resource type="Script" path="res://scripts/upgrades/ui/AlchemistBookUI.gd" id="1_ulpbr"]
+[ext_resource type="Texture2D" uid="uid://cmkmgdcxm70m5" path="res://assets/sprites/UI/Book/Side2.png" id="2_qir6j"]
+[ext_resource type="Texture2D" uid="uid://u2lx8r3fplpu" path="res://assets/sprites/UI/Book/Side3.png" id="3_occb0"]
+[ext_resource type="Texture2D" uid="uid://dojjvw8vvbs7s" path="res://assets/sprites/UI/Book/Side1.png" id="4_2rn6r"]
+[ext_resource type="Texture2D" uid="uid://d0c7nef36511j" path="res://assets/sprites/UI/Book/Side4.png" id="5_1bfj5"]
+[ext_resource type="Texture2D" uid="uid://cs0tfc574jx2a" path="res://assets/sprites/UI/Book/About.png" id="6_xvjtx"]
+[ext_resource type="Texture2D" uid="uid://bh4728h7rixnm" path="res://assets/sprites/UI/Icons/attackPotion.png" id="8_flxqg"]
+[ext_resource type="FontFile" uid="uid://bxskqnc0e7k8o" path="res://assets/sprites/UI/fonts/PublicPixel.ttf" id="9_tuit3"]
+[ext_resource type="PackedScene" uid="uid://5xklf12wcee" path="res://prefabs/ui/recipe_button.tscn" id="10_64uk6"]
+[ext_resource type="Texture2D" uid="uid://pbqd08aohqxm" path="res://assets/sprites/UI/Book/Frame1.png" id="10_75iqf"]
+[ext_resource type="Texture2D" uid="uid://5gheqsowxjux" path="res://assets/sprites/UI/Book/Frame1right.png" id="11_1fey2"]
+[ext_resource type="Resource" uid="uid://dy68pcq2tgyh4" path="res://resources/recipes/HealthRecipeData.tres" id="11_wgcx8"]
+[ext_resource type="Resource" uid="uid://dvvsb3cf8smog" path="res://resources/recipes/CriticalHitBoostRecipeData.tres" id="12_lwdge"]
+[ext_resource type="Resource" uid="uid://dde8hef2unw55" path="res://resources/recipes/CriticalHitChanceRecipeData.tres" id="13_5jauk"]
+[ext_resource type="Texture2D" uid="uid://27wqqfkkbu27" path="res://assets/sprites/UI/Book/ItemFrame.png" id="13_7n76c"]
+[ext_resource type="Texture2D" uid="uid://b8tai3uoekdyx" path="res://assets/sprites/UI/Icons/alchemistBookIcon.png" id="17_p4sql"]
+
+[node name="AlchemistUI" type="CanvasLayer" node_paths=PackedStringArray("recipeIcon", "recipeIngredients", "recipeOptions")]
+offset = Vector2(2.08165e-12, 255)
+transform = Transform2D(1, 0, 0, 1, 2.08165e-12, 255)
+script = ExtResource("1_ulpbr")
+recipeIcon = NodePath("MarginContainer/IngredientBook/Book/DetailsIconBK/RecipeIcon")
+recipeIngredients = NodePath("MarginContainer/IngredientBook/Book/RecipeIngredients")
+recipeOptions = [NodePath("MarginContainer/IngredientBook/Book/Recipes/RecipeList/HealthOption"), NodePath("MarginContainer/IngredientBook/Book/Recipes/RecipeList/RecipeBK"), NodePath("MarginContainer/IngredientBook/Book/Recipes/RecipeList/RecipeBK2")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="IngredientBook" type="Control" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Book" type="TextureRect" parent="MarginContainer/IngredientBook"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0msvw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LeftBottomLeftCorner" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = 16.0
+offset_right = -78.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qir6j")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LeftTopRightCorner" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -102.0
+offset_right = -8.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_occb0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipesTitleUI" type="HBoxContainer" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = -96.0
+offset_right = -14.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RecipeHeaderLeft" type="TextureRect" parent="MarginContainer/IngredientBook/Book/RecipesTitleUI"]
+custom_minimum_size = Vector2(25, 2.08165e-12)
+layout_mode = 2
+texture = ExtResource("10_75iqf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipeHeader" type="Label" parent="MarginContainer/IngredientBook/Book/RecipesTitleUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_tuit3")
+theme_override_font_sizes/font_size = 6
+text = "Recipes"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="RecipeHeaderRight" type="TextureRect" parent="MarginContainer/IngredientBook/Book/RecipesTitleUI"]
+custom_minimum_size = Vector2(25, 2.08165e-12)
+layout_mode = 2
+texture = ExtResource("11_1fey2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Recipes" type="ScrollContainer" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.0
+offset_top = -77.0
+offset_right = -17.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="RecipeList" type="VBoxContainer" parent="MarginContainer/IngredientBook/Book/Recipes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = -3
+
+[node name="HealthOption" parent="MarginContainer/IngredientBook/Book/Recipes/RecipeList" instance=ExtResource("10_64uk6")]
+layout_mode = 2
+recipeData = ExtResource("11_wgcx8")
+
+[node name="RecipeBK" parent="MarginContainer/IngredientBook/Book/Recipes/RecipeList" instance=ExtResource("10_64uk6")]
+layout_mode = 2
+recipeData = ExtResource("12_lwdge")
+
+[node name="RecipeBK2" parent="MarginContainer/IngredientBook/Book/Recipes/RecipeList" instance=ExtResource("10_64uk6")]
+layout_mode = 2
+recipeData = ExtResource("13_5jauk")
+
+[node name="RightTopLeftCorner" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 9.0
+offset_top = -102.0
+offset_right = 49.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_2rn6r")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RightBottomRightCorner" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 81.0
+offset_top = 16.0
+offset_right = 121.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_1bfj5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailsIconBK" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -92.0
+offset_right = 119.0
+offset_bottom = -66.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_7n76c")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipeIcon" type="TextureRect" parent="MarginContainer/IngredientBook/Book/DetailsIconBK"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -9.0
+offset_right = 8.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_flxqg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DetailsBackground" type="TextureRect" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -61.0
+offset_right = 119.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_xvjtx")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipeIngredients" type="RichTextLabel" parent="MarginContainer/IngredientBook/Book"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -51.0
+offset_right = 108.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("9_tuit3")
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "Ingredients:"
+
+[node name="Options" type="VBoxContainer" parent="MarginContainer"]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+alignment = 2
+
+[node name="CookControls" type="HBoxContainer" parent="MarginContainer/Options"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BookIcon" type="TextureRect" parent="MarginContainer/Options/CookControls"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("17_p4sql")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BookButton" type="Label" parent="MarginContainer/Options/CookControls"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_tuit3")
+theme_override_font_sizes/font_size = 10
+text = "E"
+
+[node name="BookControls" type="HBoxContainer" parent="MarginContainer/Options"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BookIcon" type="TextureRect" parent="MarginContainer/Options/BookControls"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("17_p4sql")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BookButton" type="Label" parent="MarginContainer/Options/BookControls"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_tuit3")
+theme_override_font_sizes/font_size = 10
+text = "E"

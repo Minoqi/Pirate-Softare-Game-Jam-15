@@ -1,0 +1,210 @@
+[gd_scene load_steps=25 format=3 uid="uid://chwsnq24m8phv"]
+
+[ext_resource type="Script" path="res://scripts/enemies/Enemy.gd" id="1_m0vt7"]
+[ext_resource type="Script" path="res://scripts/enemies/EnemyStateMachine.gd" id="1_rneie"]
+[ext_resource type="Shader" uid="uid://2p6e0vxcwp4u" path="res://scripts/shaders/HitFlashVisualShader.tres" id="2_6n5mb"]
+[ext_resource type="Texture2D" uid="uid://kj1xmvh2b3et" path="res://assets/sprites/enemies/doc/idle/doc_idle_anim_f0.png" id="2_nn8bu"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyIdleState.gd" id="2_vi3ce"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyWanderState.gd" id="3_anrhd"]
+[ext_resource type="Texture2D" uid="uid://b2qsuvpvvbnnp" path="res://assets/sprites/enemies/doc/idle/doc_idle_anim_f1.png" id="3_g06bf"]
+[ext_resource type="Texture2D" uid="uid://34h88ul0r8b6" path="res://assets/sprites/enemies/doc/idle/doc_idle_anim_f2.png" id="4_j44xy"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyChaseState.gd" id="4_xwubi"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyRangeAttackState.gd" id="5_24ti8"]
+[ext_resource type="Texture2D" uid="uid://cjj6t7e72plp4" path="res://assets/sprites/enemies/doc/idle/doc_idle_anim_f3.png" id="5_xaiwj"]
+[ext_resource type="Texture2D" uid="uid://cokrwaj3s2lpt" path="res://assets/sprites/enemies/doc/run/doc_run_anim_f0.png" id="6_k6n6i"]
+[ext_resource type="PackedScene" uid="uid://cua4rib8kgau3" path="res://prefabs/bullet.tscn" id="6_oiw1d"]
+[ext_resource type="Texture2D" uid="uid://ce8jo0m0an4r0" path="res://assets/sprites/enemies/doc/run/doc_run_anim_f1.png" id="7_atyk0"]
+[ext_resource type="Texture2D" uid="uid://dkqiqfv5hm12b" path="res://assets/sprites/enemies/doc/run/doc_run_anim_f2.png" id="8_lmd8c"]
+[ext_resource type="Texture2D" uid="uid://c7cy6yuiijnnk" path="res://assets/sprites/enemies/doc/run/doc_run_anim_f3.png" id="9_sb0ft"]
+[ext_resource type="Script" path="res://scripts/components/AnimationController.gd" id="10_oc60e"]
+[ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="17_wty0e"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ini4"]
+radius = 9.0
+height = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hlqkt"]
+shader = ExtResource("2_6n5mb")
+shader_parameter/enabeld = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jngnd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_nn8bu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g06bf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_j44xy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_xaiwj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_k6n6i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_atyk0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_lmd8c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_sb0ft")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_lbftr"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_krs03"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["run"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_02bf6"]
+_data = {
+"idle": SubResource("Animation_lbftr"),
+"run": SubResource("Animation_krs03")
+}
+
+[node name="DocEnemy" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine", "animator", "healthComponent")]
+script = ExtResource("1_m0vt7")
+stateMachine = NodePath("EnemyStateMachine")
+animator = NodePath("Animation/AnimationSystem")
+healthComponent = NodePath("HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_4ini4")
+
+[node name="Animation" type="Node2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Animation"]
+material = SubResource("ShaderMaterial_hlqkt")
+sprite_frames = SubResource("SpriteFrames_jngnd")
+animation = &"idle"
+frame = 3
+
+[node name="AnimationSystem" type="AnimationPlayer" parent="Animation"]
+libraries = {
+"": SubResource("AnimationLibrary_02bf6")
+}
+script = ExtResource("10_oc60e")
+
+[node name="EnemyStateMachine" type="Node2D" parent="." node_paths=PackedStringArray("agent", "startingState", "idleState", "wanderState", "chaseState", "attackState")]
+script = ExtResource("1_rneie")
+agent = NodePath("../NavigationAgent2D")
+startingState = NodePath("EnemyIdleState")
+idleState = NodePath("EnemyIdleState")
+wanderState = NodePath("EnemyWanderState")
+chaseState = NodePath("EnemyChaseState")
+attackState = NodePath("EnemyRangeAttackState")
+
+[node name="EnemyIdleState" type="Node2D" parent="EnemyStateMachine" node_paths=PackedStringArray("idleTimer")]
+script = ExtResource("2_vi3ce")
+idleTimer = NodePath("IdleTimer")
+idleDuration = Vector2(1, 3)
+
+[node name="IdleTimer" type="Timer" parent="EnemyStateMachine/EnemyIdleState"]
+one_shot = true
+
+[node name="EnemyWanderState" type="Node2D" parent="EnemyStateMachine"]
+script = ExtResource("3_anrhd")
+wanderSpeed = 75
+animName = "run"
+
+[node name="EnemyChaseState" type="Node2D" parent="EnemyStateMachine"]
+script = ExtResource("4_xwubi")
+chaseDistance = 85.0
+chaseSpeed = 70.0
+animName = "run"
+
+[node name="EnemyRangeAttackState" type="Node2D" parent="EnemyStateMachine" node_paths=PackedStringArray("attackTimer")]
+script = ExtResource("5_24ti8")
+bulletPrefab = ExtResource("6_oiw1d")
+attackDistance = 40.0
+attackTimer = NodePath("AttackTimer")
+attackCooldown = 1.0
+
+[node name="AttackTimer" type="Timer" parent="EnemyStateMachine/EnemyRangeAttackState"]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="HealthComponent" type="Area2D" parent="." node_paths=PackedStringArray("hitFlashShader", "hitFlashTimer")]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("17_wty0e")
+health = 3
+hitFlashShader = NodePath("../Animation/AnimatedSprite2D")
+hitFlashTimer = NodePath("HitFlashTimer")
+
+[node name="HealthHitbox" type="CollisionShape2D" parent="HealthComponent"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_4ini4")
+
+[node name="HitFlashTimer" type="Timer" parent="HealthComponent"]
+one_shot = true

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://il7jbox6lb4f"]
+
+[ext_resource type="Script" path="res://scripts/controls/GameManager.gd" id="1_a6uj8"]
+[ext_resource type="PackedScene" uid="uid://nej55a1eboll" path="res://prefabs/player.tscn" id="1_lscd7"]
+[ext_resource type="PackedScene" uid="uid://ds445yrqal4gs" path="res://prefabs/rooms/room_01.tscn" id="2_2uxny"]
+[ext_resource type="PackedScene" uid="uid://dfnrker1uqxuu" path="res://prefabs/ui/alchemist_ui.tscn" id="5_u23vw"]
+[ext_resource type="PackedScene" uid="uid://d2a17lb3s3l5n" path="res://prefabs/ui/potion_making_ui.tscn" id="6_ytqcu"]
+
+[node name="Gameloop" type="Node2D" node_paths=PackedStringArray("player", "bulletsHolder", "currentRoom", "alchemistUI", "potionUI")]
+script = ExtResource("1_a6uj8")
+player = NodePath("Player")
+bulletsHolder = NodePath("BulletsHolder")
+currentRoom = NodePath("Room01")
+alchemistUI = NodePath("AlchemistUI")
+potionUI = NodePath("PotionMakingUI")
+
+[node name="Room01" parent="." node_paths=PackedStringArray("gameManager") instance=ExtResource("2_2uxny")]
+gameManager = NodePath("..")
+
+[node name="Player" parent="." instance=ExtResource("1_lscd7")]
+position = Vector2(102, 62)
+
+[node name="BulletsHolder" type="Node2D" parent="."]
+
+[node name="Lighting" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Lighting"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.294118)
+
+[node name="PotionMakingUI" parent="." instance=ExtResource("6_ytqcu")]
+visible = false
+
+[node name="AlchemistUI" parent="." instance=ExtResource("5_u23vw")]
+layer = 4

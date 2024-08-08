@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://5xklf12wcee"]
+
+[ext_resource type="Texture2D" uid="uid://dsq4c8aansc3f" path="res://assets/sprites/UI/Book/Box.png" id="1_7ucdt"]
+[ext_resource type="Script" path="res://scripts/upgrades/ui/RecipeButton.gd" id="2_qjjsk"]
+[ext_resource type="Texture2D" uid="uid://bh4728h7rixnm" path="res://assets/sprites/UI/Icons/attackPotion.png" id="3_i05f5"]
+[ext_resource type="FontFile" uid="uid://bxskqnc0e7k8o" path="res://assets/sprites/UI/fonts/PublicPixel.ttf" id="4_lmhf8"]
+[ext_resource type="Texture2D" uid="uid://boa3voqcfqnqa" path="res://assets/sprites/UI/Book/BoxSelected.png" id="5_n4hr8"]
+
+[node name="RecipeBK" type="TextureRect" node_paths=PackedStringArray("recipeName", "recipeIcon", "recipeSelected", "recipeButton")]
+custom_minimum_size = Vector2(50, 25)
+texture = ExtResource("1_7ucdt")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_qjjsk")
+recipeName = NodePath("RecipeName")
+recipeIcon = NodePath("RecipeIcon")
+recipeSelected = NodePath("Selected")
+recipeButton = NodePath("RecipeButton")
+
+[node name="RecipeIcon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = -8.5
+offset_right = -25.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_i05f5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipeName" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.5
+offset_top = -6.5
+offset_right = 43.5
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_lmhf8")
+theme_override_font_sizes/font_size = 4
+text = "Name of recipe"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Selected" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_n4hr8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RecipeButton" type="Button" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2

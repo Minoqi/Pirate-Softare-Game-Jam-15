@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://dxbtjcmqeo6y2"]
+
+[ext_resource type="Texture2D" uid="uid://14il7ju5gxkw" path="res://assets/sprites/UI/Icons/mushroom.png" id="1_602md"]
+[ext_resource type="Script" path="res://scripts/upgrades/ItemData.gd" id="2_kef6t"]
+
+[resource]
+script = ExtResource("2_kef6t")
+itemName = "Mushroom"
+itemIcon = ExtResource("1_602md")

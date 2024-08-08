@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=5 format=3 uid="uid://dvvsb3cf8smog"]
+
+[ext_resource type="Script" path="res://scripts/upgrades/RecipeData.gd" id="1_8keqi"]
+[ext_resource type="Resource" uid="uid://dobj20hqygbai" path="res://resources/items/BigDemonItemData.tres" id="1_85scu"]
+[ext_resource type="Texture2D" uid="uid://bh4728h7rixnm" path="res://assets/sprites/UI/Icons/attackPotion.png" id="1_kwrno"]
+[ext_resource type="Resource" uid="uid://dxbtjcmqeo6y2" path="res://resources/items/NecromancerItemData.tres" id="2_puwrq"]
+
+[resource]
+script = ExtResource("1_8keqi")
+recipeName = "Critical Hit Potion"
+recipeDescription = "Increase your critical hit by 10%"
+recipeIcon = ExtResource("1_kwrno")
+recipeRequirements = Array[Resource("res://scripts/upgrades/ItemData.gd")]([ExtResource("1_85scu"), ExtResource("2_puwrq")])

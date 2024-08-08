@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://d2jqq0siw06dq"]
+
+[ext_resource type="Texture2D" uid="uid://dxt3a4dn5bslb" path="res://assets/sprites/UI/Icons/docSkull.png" id="1_0bvrn"]
+[ext_resource type="Script" path="res://scripts/upgrades/ItemData.gd" id="1_ujflj"]
+
+[resource]
+script = ExtResource("1_ujflj")
+itemName = "Doctor Skull"
+itemIcon = ExtResource("1_0bvrn")

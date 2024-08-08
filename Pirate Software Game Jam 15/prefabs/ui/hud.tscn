@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://ken7eomtrlda"]
+
+[ext_resource type="Script" path="res://scripts/player/hud.gd" id="1_qf8mb"]
+[ext_resource type="PackedScene" uid="uid://cgv7vwbkwe5xv" path="res://prefabs/ui/heartIcon.tscn" id="2_cl7ju"]
+
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("heartsHolder")]
+script = ExtResource("1_qf8mb")
+heartIconPrefab = ExtResource("2_cl7ju")
+heartsHolder = NodePath("MarginContainer/HeartContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HeartContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -3

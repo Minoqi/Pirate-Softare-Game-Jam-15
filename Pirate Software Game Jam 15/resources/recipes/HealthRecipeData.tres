@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=5 format=3 uid="uid://dy68pcq2tgyh4"]
+
+[ext_resource type="Resource" uid="uid://d2jqq0siw06dq" path="res://resources/items/DocItemData.tres" id="1_8me02"]
+[ext_resource type="Script" path="res://scripts/upgrades/RecipeData.gd" id="1_ejvxt"]
+[ext_resource type="Texture2D" uid="uid://dkokjhhf3yv1v" path="res://assets/sprites/UI/Icons/healPotion.png" id="1_euuy2"]
+[ext_resource type="Resource" uid="uid://dxbtjcmqeo6y2" path="res://resources/items/NecromancerItemData.tres" id="2_dug0v"]
+
+[resource]
+script = ExtResource("1_ejvxt")
+recipeName = "Healing Potion"
+recipeDescription = "Heal for 1 health"
+recipeIcon = ExtResource("1_euuy2")
+recipeRequirements = Array[Resource("res://scripts/upgrades/ItemData.gd")]([ExtResource("1_8me02"), ExtResource("2_dug0v")])

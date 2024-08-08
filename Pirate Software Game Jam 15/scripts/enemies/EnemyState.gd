@@ -2,15 +2,13 @@ extends Node2D
 class_name EnemyState
 
 # Variables
-@export var exitState : MovementState
 @export var animName : String
-
-var actor : CharacterBody2D
-var stateMachine : EnemyControls
+var stateMachine : EnemyStateMachine
 
 
 # Signals
-signal call_animation(_animName : String)
+signal play_animation(_animName : String)
+signal flip(_flipLeft : bool)
 
 
 func enter_state() -> void:
@@ -19,3 +17,11 @@ func enter_state() -> void:
 
 func exit_state() -> void:
 	pass
+
+
+func call_animation(_animName : String):
+	play_animation.emit(_animName)
+
+
+func call_flip(_flipLeft : bool) -> void:
+	flip.emit(_flipLeft)

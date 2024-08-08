@@ -1,0 +1,196 @@
+[gd_scene load_steps=21 format=3 uid="uid://b4swky304cp1s"]
+
+[ext_resource type="Script" path="res://scripts/enemies/Enemy.gd" id="1_peywm"]
+[ext_resource type="Texture2D" uid="uid://ug1wnp7bah2o" path="res://assets/sprites/enemies/necromancer/necromancer_anim_f0.png" id="1_v2rrb"]
+[ext_resource type="Shader" uid="uid://2p6e0vxcwp4u" path="res://scripts/shaders/HitFlashVisualShader.tres" id="2_qbm7g"]
+[ext_resource type="Texture2D" uid="uid://begq8anx6uka4" path="res://assets/sprites/enemies/necromancer/necromancer_anim_f1.png" id="2_y3nui"]
+[ext_resource type="Texture2D" uid="uid://tls7623a4uun" path="res://assets/sprites/enemies/necromancer/necromancer_anim_f2.png" id="3_gj3ip"]
+[ext_resource type="Texture2D" uid="uid://demr7bulla75c" path="res://assets/sprites/enemies/necromancer/necromancer_anim_f3.png" id="4_gtc7a"]
+[ext_resource type="Script" path="res://scripts/components/AnimationController.gd" id="5_h7stt"]
+[ext_resource type="Script" path="res://scripts/enemies/EnemyStateMachine.gd" id="7_atrp2"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyIdleState.gd" id="7_quq2b"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyChaseState.gd" id="8_3jh8r"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyRangeAttackState.gd" id="10_d1y5v"]
+[ext_resource type="PackedScene" uid="uid://cua4rib8kgau3" path="res://prefabs/bullet.tscn" id="11_vl75e"]
+[ext_resource type="Script" path="res://scripts/enemies/states/EnemyWanderState.gd" id="12_773rf"]
+[ext_resource type="Script" path="res://scripts/components/HealthComponent.gd" id="13_u01py"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_roejo"]
+radius = 9.0
+height = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b0q52"]
+shader = ExtResource("2_qbm7g")
+shader_parameter/enabeld = false
+shader_parameter/tint = Color(1, 1, 1, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vdvj3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v2rrb")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v2rrb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_y3nui")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gj3ip")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gtc7a")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_pwfvm"]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["idle"]
+}
+
+[sub_resource type="Animation" id="Animation_6acb0"]
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["run"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mpapd"]
+_data = {
+"idle": SubResource("Animation_pwfvm"),
+"run": SubResource("Animation_6acb0")
+}
+
+[node name="NecromancerEnemy" type="CharacterBody2D" node_paths=PackedStringArray("stateMachine", "animator", "healthComponent")]
+script = ExtResource("1_peywm")
+stateMachine = NodePath("States")
+animator = NodePath("Animations/AnimationSystem")
+healthComponent = NodePath("HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_roejo")
+
+[node name="Animations" type="Node2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Animations"]
+material = SubResource("ShaderMaterial_b0q52")
+sprite_frames = SubResource("SpriteFrames_vdvj3")
+animation = &"idle"
+
+[node name="AnimationSystem" type="AnimationPlayer" parent="Animations" node_paths=PackedStringArray("flipSprites")]
+libraries = {
+"": SubResource("AnimationLibrary_mpapd")
+}
+script = ExtResource("5_h7stt")
+flipSprites = [NodePath("../AnimatedSprite2D")]
+
+[node name="States" type="Node2D" parent="." node_paths=PackedStringArray("agent", "startingState", "idleState", "wanderState", "chaseState", "attackState")]
+script = ExtResource("7_atrp2")
+agent = NodePath("../NavigationAgent2D")
+startingState = NodePath("EnemyIdleState")
+idleState = NodePath("EnemyIdleState")
+wanderState = NodePath("EnemyWanderState")
+chaseState = NodePath("EnemyChaseState")
+attackState = NodePath("EnemyRangeAttackState")
+
+[node name="EnemyIdleState" type="Node2D" parent="States" node_paths=PackedStringArray("idleTimer")]
+script = ExtResource("7_quq2b")
+idleTimer = NodePath("IdleTimer")
+idleDuration = Vector2(2, 5)
+animName = "idle"
+
+[node name="IdleTimer" type="Timer" parent="States/EnemyIdleState"]
+one_shot = true
+
+[node name="EnemyChaseState" type="Node2D" parent="States"]
+script = ExtResource("8_3jh8r")
+chaseDistance = 85.0
+chaseSpeed = 75.0
+animName = "run"
+
+[node name="EnemyWanderState" type="Node2D" parent="States"]
+script = ExtResource("12_773rf")
+animName = "run"
+
+[node name="EnemyRangeAttackState" type="Node2D" parent="States" node_paths=PackedStringArray("attackTimer")]
+script = ExtResource("10_d1y5v")
+bulletPrefab = ExtResource("11_vl75e")
+attackDistance = 50.0
+attackTimer = NodePath("RangeAttackTimer")
+attackCooldown = 1.0
+
+[node name="RangeAttackTimer" type="Timer" parent="States/EnemyRangeAttackState"]
+one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="HealthComponent" type="Area2D" parent="." node_paths=PackedStringArray("hitFlashShader", "hitFlashTimer")]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("13_u01py")
+health = 3
+hitFlashShader = NodePath("../Animations/AnimatedSprite2D")
+hitFlashTimer = NodePath("HitFlashTimer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthComponent"]
+position = Vector2(0, -8)
+shape = SubResource("CapsuleShape2D_roejo")
+
+[node name="HitFlashTimer" type="Timer" parent="HealthComponent"]
+one_shot = true

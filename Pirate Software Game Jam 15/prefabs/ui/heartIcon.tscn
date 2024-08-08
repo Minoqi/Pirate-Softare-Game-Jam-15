@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgv7vwbkwe5xv"]
+
+[ext_resource type="Texture2D" uid="uid://b4cbpuqfpc8r7" path="res://assets/sprites/UI/HUD/heartIcon.png" id="1_m27by"]
+
+[node name="HeartIcon" type="TextureRect"]
+custom_minimum_size = Vector2(25, 25)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_m27by")
+expand_mode = 1
+stretch_mode = 5

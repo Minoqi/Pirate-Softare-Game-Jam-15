@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://clnm4ybp5allp"]
+
+[ext_resource type="Texture2D" uid="uid://bkaelnq4anu2v" path="res://assets/sprites/UI/Buttons/Box.png" id="1_2hppg"]
+[ext_resource type="Script" path="res://scripts/upgrades/ui/PotionItemButton.gd" id="2_j1yuj"]
+[ext_resource type="Texture2D" uid="uid://137h7gworgjb" path="res://assets/sprites/UI/Buttons/BoxSelected.png" id="3_ynvuk"]
+[ext_resource type="FontFile" uid="uid://bxskqnc0e7k8o" path="res://assets/sprites/UI/fonts/PublicPixel.ttf" id="4_o1ihj"]
+
+[node name="ItemBK" type="TextureRect" node_paths=PackedStringArray("itemIcon", "itemAmountLabel", "itemButton", "itemSelected")]
+custom_minimum_size = Vector2(50, 50)
+texture = ExtResource("1_2hppg")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_j1yuj")
+itemIcon = NodePath("ItemIcon")
+itemAmountLabel = NodePath("ItemAmount")
+itemButton = NodePath("ItemButton")
+itemSelected = NodePath("ItemSelected")
+
+[node name="ItemIcon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemSelected" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ynvuk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemAmount" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+offset_right = -2.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_o1ihj")
+theme_override_font_sizes/font_size = 10
+text = "x2"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="ItemButton" type="Button" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

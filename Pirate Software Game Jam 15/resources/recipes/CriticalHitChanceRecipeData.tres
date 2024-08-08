@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=5 format=3 uid="uid://dde8hef2unw55"]
+
+[ext_resource type="Resource" uid="uid://dobj20hqygbai" path="res://resources/items/BigDemonItemData.tres" id="1_g0u7x"]
+[ext_resource type="Texture2D" uid="uid://bh4728h7rixnm" path="res://assets/sprites/UI/Icons/attackPotion.png" id="1_ovbau"]
+[ext_resource type="Script" path="res://scripts/upgrades/RecipeData.gd" id="1_vobw1"]
+[ext_resource type="Resource" uid="uid://chvluc3i2x0x0" path="res://resources/items/OgreItemData.tres" id="2_bwbol"]
+
+[resource]
+script = ExtResource("1_vobw1")
+recipeName = "Critical Hit Chance Potion"
+recipeDescription = "Increase your critical hit chance by 10%"
+recipeIcon = ExtResource("1_ovbau")
+recipeRequirements = Array[Resource("res://scripts/upgrades/ItemData.gd")]([ExtResource("1_g0u7x"), ExtResource("2_bwbol")])

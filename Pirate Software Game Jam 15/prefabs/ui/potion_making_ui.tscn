@@ -1,0 +1,249 @@
+[gd_scene load_steps=19 format=3 uid="uid://d2a17lb3s3l5n"]
+
+[ext_resource type="Texture2D" uid="uid://bkaelnq4anu2v" path="res://assets/sprites/UI/Buttons/Box.png" id="1_ftsa4"]
+[ext_resource type="Script" path="res://scripts/upgrades/PotionMaking.gd" id="1_s3njc"]
+[ext_resource type="FontFile" uid="uid://bxskqnc0e7k8o" path="res://assets/sprites/UI/fonts/PublicPixel.ttf" id="2_2br7u"]
+[ext_resource type="Script" path="res://scripts/upgrades/ui/IngredientSlot.gd" id="2_2gsyk"]
+[ext_resource type="Resource" uid="uid://dvvsb3cf8smog" path="res://resources/recipes/CriticalHitBoostRecipeData.tres" id="2_h2l1i"]
+[ext_resource type="Texture2D" uid="uid://cp1x8yweoqphn" path="res://assets/sprites/UI/Buttons/ButtonNotHovered.png" id="3_gd0h1"]
+[ext_resource type="Resource" uid="uid://dde8hef2unw55" path="res://resources/recipes/CriticalHitChanceRecipeData.tres" id="3_gsj20"]
+[ext_resource type="Texture2D" uid="uid://2ns0hv1l8drx" path="res://assets/sprites/UI/Buttons/BoxChosen.png" id="3_mpf8v"]
+[ext_resource type="PackedScene" uid="uid://clnm4ybp5allp" path="res://prefabs/ui/item_button.tscn" id="3_xe00j"]
+[ext_resource type="Resource" uid="uid://dy68pcq2tgyh4" path="res://resources/recipes/HealthRecipeData.tres" id="4_65nft"]
+[ext_resource type="Resource" uid="uid://dobj20hqygbai" path="res://resources/items/BigDemonItemData.tres" id="4_elcaf"]
+[ext_resource type="Script" path="res://scripts/upgrades/ui/CookButton.gd" id="4_mg77x"]
+[ext_resource type="Texture2D" uid="uid://dlyib87tgaxem" path="res://assets/sprites/UI/Banners/Header3.png" id="5_di16m"]
+[ext_resource type="Resource" uid="uid://d2jqq0siw06dq" path="res://resources/items/DocItemData.tres" id="5_x6oce"]
+[ext_resource type="Texture2D" uid="uid://137h7gworgjb" path="res://assets/sprites/UI/Buttons/BoxSelected.png" id="5_y1esc"]
+[ext_resource type="Resource" uid="uid://dxbtjcmqeo6y2" path="res://resources/items/NecromancerItemData.tres" id="6_3bar5"]
+[ext_resource type="Texture2D" uid="uid://boa3voqcfqnqa" path="res://assets/sprites/UI/Book/BoxSelected.png" id="6_bmyaa"]
+[ext_resource type="Resource" uid="uid://chvluc3i2x0x0" path="res://resources/items/OgreItemData.tres" id="7_jjyue"]
+
+[node name="PotionMakingUI" type="CanvasLayer" node_paths=PackedStringArray("ingredientSlot1", "ingredientSlot2", "cookButton", "potionLabel", "potionButtons")]
+script = ExtResource("1_s3njc")
+ingredientSlot1 = NodePath("MarginContainer/VBoxContainer/RecipeUI/IngredientSlot")
+ingredientSlot2 = NodePath("MarginContainer/VBoxContainer/RecipeUI/IngredientSlot2")
+cookButton = NodePath("MarginContainer/VBoxContainer/CookButtonBK")
+potionLabel = NodePath("MarginContainer/VBoxContainer/PotionBanner/PotionLabel")
+potionButtons = [NodePath("MarginContainer/VBoxContainer/InventoryUI/ItemBK"), NodePath("MarginContainer/VBoxContainer/InventoryUI/ItemBK2"), NodePath("MarginContainer/VBoxContainer/InventoryUI/ItemBK3"), NodePath("MarginContainer/VBoxContainer/InventoryUI/ItemBK4")]
+recipes = Array[Resource("res://scripts/upgrades/RecipeData.gd")]([ExtResource("2_h2l1i"), ExtResource("3_gsj20"), ExtResource("4_65nft")])
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="PotionBanner" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+texture = ExtResource("5_di16m")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PotionLabel" type="Label" parent="MarginContainer/VBoxContainer/PotionBanner"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -20.0
+offset_right = 38.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_2br7u")
+theme_override_font_sizes/font_size = 6
+text = "Cooking..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="RecipeUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="IngredientSlot" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI" node_paths=PackedStringArray("ingredientIcon", "slotSelected", "slotButton")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("1_ftsa4")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_2gsyk")
+ingredientIcon = NodePath("IngredientIcon")
+slotNotSet = ExtResource("1_ftsa4")
+slotSet = ExtResource("3_mpf8v")
+slotSelected = NodePath("SlotSelected")
+slotButton = NodePath("SlotButton")
+
+[node name="IngredientIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_y1esc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotButton" type="Button" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlusLabel" type="Label" parent="MarginContainer/VBoxContainer/RecipeUI"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_2br7u")
+theme_override_font_sizes/font_size = 35
+text = "+"
+horizontal_alignment = 1
+
+[node name="IngredientSlot2" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI" node_paths=PackedStringArray("ingredientIcon", "slotSelected", "slotButton")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("1_ftsa4")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_2gsyk")
+ingredientIcon = NodePath("IngredientIcon")
+slotNotSet = ExtResource("1_ftsa4")
+slotSet = ExtResource("3_mpf8v")
+slotSelected = NodePath("SlotSelected")
+slotButton = NodePath("SlotButton")
+
+[node name="IngredientIcon" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_y1esc")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotButton" type="Button" parent="MarginContainer/VBoxContainer/RecipeUI/IngredientSlot2"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CookButtonBK" type="TextureRect" parent="MarginContainer/VBoxContainer" node_paths=PackedStringArray("buttonSelected", "cookButton")]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3_gd0h1")
+stretch_mode = 5
+script = ExtResource("4_mg77x")
+buttonSelected = NodePath("CookButtonSelected")
+cookButton = NodePath("CookButton")
+
+[node name="CookLabel" type="Label" parent="MarginContainer/VBoxContainer/CookButtonBK"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_2br7u")
+text = "Cook"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CookButtonSelected" type="TextureRect" parent="MarginContainer/VBoxContainer/CookButtonBK"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bmyaa")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CookButton" type="Button" parent="MarginContainer/VBoxContainer/CookButtonBK"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Cook"
+
+[node name="InventoryUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ItemBK" parent="MarginContainer/VBoxContainer/InventoryUI" instance=ExtResource("3_xe00j")]
+layout_mode = 2
+itemData = ExtResource("4_elcaf")
+
+[node name="ItemBK2" parent="MarginContainer/VBoxContainer/InventoryUI" instance=ExtResource("3_xe00j")]
+layout_mode = 2
+itemData = ExtResource("5_x6oce")
+
+[node name="ItemBK3" parent="MarginContainer/VBoxContainer/InventoryUI" instance=ExtResource("3_xe00j")]
+layout_mode = 2
+itemData = ExtResource("6_3bar5")
+
+[node name="ItemBK4" parent="MarginContainer/VBoxContainer/InventoryUI" instance=ExtResource("3_xe00j")]
+layout_mode = 2
+itemData = ExtResource("7_jjyue")
